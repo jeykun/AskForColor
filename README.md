@@ -3,5 +3,7 @@ Based on Tkinter, this class called "AskForColor" opens a window for the user to
 
 
 import AskForColor from ask_for_color
+
 ask = AskForColor("#1a2b3c")
+
 color = ask.get()
