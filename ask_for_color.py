@@ -7,15 +7,19 @@ class AskForColor:
         self.__tk = Tk()
         self.__tk.title('Choose a color')
         self.__tk.resizable(False,False)
+        
         self.__frame = Frame(self.__tk)
         self.__frame_botoes = Frame(self.__tk)
-        self.__frame_labels = Frame(self.__tk)        
+        self.__frame_labels = Frame(self.__tk)
+        
         self.__frame.pack()
         self.__frame_labels.pack()
         self.__frame_botoes.pack()
+        
         altura = 20
         comprimento = 320
         botoes_largura = 10
+        
 
         self.__slider_r = Scale(self.__frame, from_=0, to=255, orient=HORIZONTAL,width=altura,length=comprimento,fg='#ff0000')
         self.__slider_g = Scale(self.__frame, from_=0, to=255, orient=HORIZONTAL,width=altura,length=comprimento,fg='#00ff00')
@@ -25,28 +29,39 @@ class AskForColor:
         self.__slider_g['command'] = self.__setcor
         self.__slider_b['command'] = self.__setcor
 
-        self.__slider_r.pack(); self.__slider_r.set(self.__hexstr2int(self.__cor_default[1:3]))
-        self.__slider_g.pack(); self.__slider_g.set(self.__hexstr2int(self.__cor_default[3:5]))
-        self.__slider_b.pack(); self.__slider_b.set(self.__hexstr2int(self.__cor_default[5:7]))
+        self.__slider_r.set(self.__hexstr2int(self.__cor_default[1:3]))
+        self.__slider_g.set(self.__hexstr2int(self.__cor_default[3:5]))
+        self.__slider_b.set(self.__hexstr2int(self.__cor_default[5:7]))
+        
+        self.__slider_r.pack()
+        self.__slider_g.pack()
+        self.__slider_b.pack()
+        
+        
 
         self.__label = Label(self.__frame_labels,text=f'{self.__cor_default[1:].upper()}: ')
-        self.__label.grid(row=0,column=0)
+        self.__label.grid(row=0,column=0)        
         
         self.__label_cor = Label(self.__frame_labels,text=' '*15)
         self.__label_cor['bg'] = self.__cor
         self.__label_cor.grid(row=0,column=1)
-
         
         
         self.__ok = Button(self.__frame_botoes,text='OK',width=botoes_largura)
         self.__ok['command'] = self.__retornook
         self.__ok.grid(row=0,column=0)
         
+        
         self.__cancelar = Button(self.__frame_botoes,text='Cancel',width=botoes_largura)
         self.__cancelar['command'] = self.__retornocancel
         self.__cancelar.grid(row=0,column=1)
+        
 
-        #self.__tk.mainloop()
+        
+        self.__tk.protocol('WM_DELETE_WINDOW', self.__retornocancel)
+        self.__tk.mainloop()
+        
+        
 
     def __setcor(self,valor):        
         __cor  = '#' + self.__int2hexstr(self.__slider_r.get())
@@ -59,10 +74,17 @@ class AskForColor:
     def __retornook(self):
         self.__cor = self.__cor
         self.__tk.destroy()
+        self.__tk.quit()
     
     def __retornocancel(self):
         self.__cor = self.__cor_default
         self.__tk.destroy()
+        self.__tk.quit()
+
+    def get(self):
+        return self.__cor
+
+    
 
     def __hexstr2int(self,string):
         string = string.lower()
@@ -80,9 +102,10 @@ class AskForColor:
             return hex(intt)[2:]
         else:
             return '0'+hex(intt)[2:]
-
-    def get(self):
-        return self.__cor
+        
+    
         
         
 
+
+#a = AskForColor('#123456')
