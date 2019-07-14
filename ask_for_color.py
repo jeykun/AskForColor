@@ -1,11 +1,37 @@
 from tkinter import *    
 
 class AskForColor:
-    def __init__(self,default_color):
+    def __init__(self,default_color,**kw):
+        """
+        This class AskForColor allows the user choose a color in RGB system.        
+
+        obligatory input:
+            > default_color = '#123456'
+        
+        inputs as a dictionary (optional):
+            >  title = 'Window_title_example'
+            >     ok = 'ok_button_text_example'
+            > cancel = 'cancel_button_text_example'
+
+        To get the color, use the method "get()";
+        To get the integer numbers, use the method "getnum()".
+
+        Example of use:
+            ask = AskForColor('#123456',title='WINDOWname',ok='Get color',cancel='Decline')
+            print(ask.get())
+            print(ask.getnum())
+        """
+        
+        kw.setdefault('title','Choose a color')
+        kw.setdefault('ok','OK')
+        kw.setdefault('cancel','Cancel')
+        
         self.__cor_default = default_color
         self.__cor = default_color
+        
+        self.__numero = (self.__hexstr2int(self.__cor[1:3]),self.__hexstr2int(self.__cor[3:5]),self.__hexstr2int(self.__cor[5:7]))
         self.__tk = Tk()
-        self.__tk.title('Choose a color')
+        self.__tk.title(kw['title'])
         self.__tk.resizable(False,False)
         
         self.__frame = Frame(self.__tk)
@@ -16,14 +42,14 @@ class AskForColor:
         self.__frame_labels.pack()
         self.__frame_botoes.pack()
         
-        altura = 20
-        comprimento = 400
-        botoes_largura = 10
+        height = 20
+        width = 400
+        buttons_width = 10
         
 
-        self.__slider_r = Scale(self.__frame, from_=0, to=255, orient=HORIZONTAL,width=altura,length=comprimento,fg='#ff0000')
-        self.__slider_g = Scale(self.__frame, from_=0, to=255, orient=HORIZONTAL,width=altura,length=comprimento,fg='#00ff00')
-        self.__slider_b = Scale(self.__frame, from_=0, to=255, orient=HORIZONTAL,width=altura,length=comprimento,fg='#0000ff')        
+        self.__slider_r = Scale(self.__frame, from_=0, to=255, orient=HORIZONTAL,width=height,length=width,fg='#ff0000')
+        self.__slider_g = Scale(self.__frame, from_=0, to=255, orient=HORIZONTAL,width=height,length=width,fg='#00ff00')
+        self.__slider_b = Scale(self.__frame, from_=0, to=255, orient=HORIZONTAL,width=height,length=width,fg='#0000ff')        
 
         self.__slider_r['command'] = self.__setcor
         self.__slider_g['command'] = self.__setcor
@@ -35,8 +61,7 @@ class AskForColor:
         
         self.__slider_r.pack()
         self.__slider_g.pack()
-        self.__slider_b.pack()
-        
+        self.__slider_b.pack()        
         
 
         self.__label = Label(self.__frame_labels,text=f'{self.__cor_default[1:].upper()}: ')
@@ -47,15 +72,14 @@ class AskForColor:
         self.__label_cor.grid(row=0,column=1)
         
         
-        self.__ok = Button(self.__frame_botoes,text='OK',width=botoes_largura)
+        self.__ok = Button(self.__frame_botoes,text=kw['ok'],width=buttons_width)
         self.__ok['command'] = self.__retornook
         self.__ok.grid(row=0,column=0)
         
         
-        self.__cancelar = Button(self.__frame_botoes,text='Cancel',width=botoes_largura)
+        self.__cancelar = Button(self.__frame_botoes,text=kw['cancel'],width=buttons_width)
         self.__cancelar['command'] = self.__retornocancel
-        self.__cancelar.grid(row=0,column=1)
-        
+        self.__cancelar.grid(row=0,column=1)        
 
         
         self.__tk.protocol('WM_DELETE_WINDOW', self.__retornocancel)
@@ -70,6 +94,7 @@ class AskForColor:
         self.__label_cor['bg'] = __cor
         self.__label['text'] = __cor[1:].upper()+': '
         self.__cor = __cor
+        self.__numero = (self.__slider_r.get(),self.__slider_g.get(),self.__slider_b.get())
 
     def __retornook(self):
         self.__cor = self.__cor
@@ -82,8 +107,12 @@ class AskForColor:
         self.__tk.quit()
 
     def get(self):
+        """returns the string color like "#123456" """
         return self.__cor
-
+                         
+    def getnum(self):
+        """returns a tuple of int numbers like (18,52,86) """
+        return self.__numero
     
 
     def __hexstr2int(self,string):
@@ -103,9 +132,3 @@ class AskForColor:
         else:
             return '0'+hex(intt)[2:]
         
-    
-        
-        
-
-
-#a = AskForColor('#123456')
