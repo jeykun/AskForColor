@@ -106,12 +106,26 @@ class AskForColor:
         self.__tk.destroy()
         self.__tk.quit()
 
-    def get(self):
-        """returns the string color like "#123456" """
+    def get(self,**kw):        
+        """
+        This function returns the string color like "#123456"
+        If the dictionary key "reverse=True" is given, it returns the inverse color (negative).
+        """
+        kw.setdefault('reverse',False)
+        if kw['reverse']:
+            n1,n2,n3=self.getnum()
+            n1,n2,n3=255-n1,255-n2,255-n3
+            return '#'+self.__int2hexstr(n1)+self.__int2hexstr(n2)+self.__int2hexstr(n3)
         return self.__cor
                          
-    def getnum(self):
-        """returns a tuple of int numbers like (18,52,86) """
+    def getnum(self,**kw):
+        """
+        This function returns a tuple of int numbers like (18,52,86).
+        If the dictionary key "reverse=True" is given, it returns the inverse color (negative).
+        """
+        kw.setdefault('reverse',False)
+        if kw['reverse']:
+            return (255-self.__numero[0],255-self.__numero[1],255-self.__numero[2])
         return self.__numero
     
 
@@ -131,4 +145,3 @@ class AskForColor:
             return hex(intt)[2:]
         else:
             return '0'+hex(intt)[2:]
-        
