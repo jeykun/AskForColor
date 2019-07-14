@@ -17,7 +17,7 @@ class AskForColor:
         self.__frame_botoes.pack()
         
         altura = 20
-        comprimento = 320
+        comprimento = 400
         botoes_largura = 10
         
 
