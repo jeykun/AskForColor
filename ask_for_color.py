@@ -108,7 +108,7 @@ class AskForColor:
 
     def get(self,**kw):        
         """
-        This function returns the string color like "#123456"
+        This method returns the string color like "#123456"
         If the dictionary key "reverse=True" is given, it returns the inverse color (negative).
         """
         kw.setdefault('reverse',False)
@@ -120,7 +120,7 @@ class AskForColor:
                          
     def getnum(self,**kw):
         """
-        This function returns a tuple of int numbers like (18,52,86).
+        This method returns a tuple of int numbers like (18,52,86).
         If the dictionary key "reverse=True" is given, it returns the inverse color (negative).
         """
         kw.setdefault('reverse',False)
